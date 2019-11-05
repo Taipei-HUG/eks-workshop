@@ -26,3 +26,5 @@ curl --silent -Lo skaffold https://storage.googleapis.com/skaffold/releases/late
 chmod +x skaffold
 sudo mv skaffold /usr/local/bin
 echo 'skaffold Done.'
+
+sudo yum install jq
