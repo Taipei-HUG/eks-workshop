@@ -8,6 +8,6 @@ curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
 kubectl apply -f helm-sa-rolebinding.yaml
 
 # Initial helm into kubernetes
-helm init --service-account tiller --upgrade
+helm init --service-account tiller --wait
 
 echo 'Done helm installation.'

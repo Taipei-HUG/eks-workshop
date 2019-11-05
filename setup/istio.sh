@@ -9,6 +9,6 @@ sleep 10;
 
 helm upgrade --install istio --namespace istio-system -f istio-customized.yaml istio.io/istio --wait
 
-kubectl apply -f addons
+kubectl apply -f addon
 
 kubectl label namespace default istio-injection=enabled --overwrite=true
