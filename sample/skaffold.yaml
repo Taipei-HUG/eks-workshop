@@ -6,22 +6,22 @@ build:
     context: src/details
   - image: eks-workshop-bookinfo-productpage
     context: src/productpage
-  - image: eks-workshop-bookinfo-ratings
-    context: src/ratings
+  - image: eks-workshop-bookinfo-reviews
+    context: src/reviews
   tagPolicy:
     gitCommit: {}
 deploy:
   helm:
     releases:
     - name: bookinfo-details
-      chartPath: helm-charts/bookinfo-details
+      chartPath: helm-charts/details
       values:
         image: eks-workshop-bookinfo-details
     - name: bookinfo-productpage
-      chartPath: helm-charts/bookinfo-productpage
+      chartPath: helm-charts/productpage
       values:
         image: eks-workshop-bookinfo-productpage
-    - name: bookinfo-ratings
-      chartPath: helm-charts/bookinfo-ratings
+    - name: bookinfo-reviews
+      chartPath: helm-charts/reviews
       values:
-        image: eks-workshop-bookinfo-ratings
+        image: eks-workshop-bookinfo-reviews
