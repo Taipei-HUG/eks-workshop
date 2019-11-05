@@ -1,5 +1,7 @@
 
 #!/bin/sh
+sudo cp -r ~/.kube /root/
+sudo cp -r ~/.aws /root/
 AccountID=$(aws sts get-caller-identity | jq .Account | tr -d '"')
 Registry=${AccountID}.dkr.ecr.us-west-2.amazonaws.com
 aws ecr create-repository --repository-name eks-workshop-bookinfo-productpage
