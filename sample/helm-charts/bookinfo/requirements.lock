@@ -1,0 +1,12 @@
+dependencies:
+- name: productpage
+  repository: file://../productpage
+  version: 1.0.0
+- name: details
+  repository: file://../details
+  version: 1.0.0
+- name: reviews
+  repository: file://../reviews
+  version: 1.0.0
+digest: sha256:cb0d3111d7f5b6df2f1e66c4431ff62990854600c0c275a97af5daa0c4edf2f8
+generated: "2019-11-06T12:13:48.368786+08:00"

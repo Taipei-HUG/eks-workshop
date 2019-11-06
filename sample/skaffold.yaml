@@ -1,4 +1,4 @@
-apiVersion: skaffold/v1beta2
+apiVersion: skaffold/v1beta17
 kind: Config
 build:
   artifacts:
@@ -13,15 +13,29 @@ build:
 deploy:
   helm:
     releases:
-    - name: bookinfo-details
-      chartPath: helm-charts/bookinfo-details
-      values:
+    - name: details
+      chartPath: helm-charts/details
+      values: 
         image: eks-workshop-bookinfo-details
-    - name: bookinfo-productpage
-      chartPath: helm-charts/bookinfo-productpage
+      imageStrategy:
+        helm: {}  
+    - name: productpage
+      chartPath: helm-charts/productpage
       values:
         image: eks-workshop-bookinfo-productpage
-    - name: bookinfo-ratings
-      chartPath: helm-charts/bookinfo-ratings
+      imageStrategy:
+        helm: {}  
+    - name: reviews
+      chartPath: helm-charts/reviews
+    - name: ratings
+      chartPath: helm-charts/ratings
       values:
         image: eks-workshop-bookinfo-ratings
+      imageStrategy:
+        helm: {}  
+    flags:
+      install:
+        - --atomic
+      upgrade:
+        - --reset-values
+        - --atomic

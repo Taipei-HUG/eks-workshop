@@ -1,0 +1,10 @@
+dependencies:
+    - name: productpage
+      version: "1.0.0"
+      repository: "file://../productpage"
+    - name: details
+      version: "1.0.0"
+      repository: "file://../details"
+    - name: reviews
+      version: "1.0.0"
+      repository: "file://../reviews"
