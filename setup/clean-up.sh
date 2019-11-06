@@ -1,9 +1,27 @@
-
 #!/bin/sh
+
+aws ecr delete-repository --repository-name eks-workshop-bookinfo-productpage --force
+aws ecr delete-repository --repository-name eks-workshop-bookinfo-ratings --force
+aws ecr delete-repository --repository-name eks-workshop-bookinfo-details --force
+
+kubectl delete svc --all
+
+kubectl delete deploy --all
+
+sleep 15 
 
 helm delete istio-init --purge
 
+sleep 15
+
 helm delete istio --purge
 
+sleep 15
+del=1
 # Remove EKS cluster
-eksctl delete cluster -f eks.yaml
+while [ $del -ne 0 ] ;
+do 
+echo 'try to delete eks'
+eksctl delete cluster -f eks.yaml ; 
+del=$?
+done
