@@ -19,16 +19,16 @@ resource "random_string" "db_password" {
 module "db_sg" {
   source  = "terraform-aws-modules/security-group/aws//modules/mysql"
   version = "~> 3.0"
-  name    = "demodb"
-  vpc_id  = data.aws_vpc.default.id
-  ingress_cidr_blocks = [data.aws_vpc.default.cidr_block]
+  name    = "testirsa"
+  vpc_id  = data.aws_vpc.eks.id
+  ingress_cidr_blocks = [data.aws_vpc.eks.cidr_block]
 }
 
 module "db" {
   source = "terraform-aws-modules/rds/aws"
   version = "~> 2.5"
 
-  identifier = "demodb"
+  identifier = "testirsa"
 
   # All available versions: http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt
   engine            = "mysql"
@@ -37,7 +37,7 @@ module "db" {
   allocated_storage = 5
   storage_encrypted = false
 
-  name     = "demodb"
+  name     = "test"
   username = random_string.db_username.result
   password = random_string.db_password.result
   port     = "3306"

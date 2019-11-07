@@ -13,3 +13,7 @@ output "db_address" {
 output "db_port" {
   value = "3306"
 }
+
+output "db_policy" {
+  value = aws_iam_policy.test_irsa_rds.arn
+}

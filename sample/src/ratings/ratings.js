@@ -47,11 +47,12 @@ if (process.env.SERVICE_VERSION === 'v-unhealthy') {
  */
 if (process.env.SERVICE_VERSION === 'v2') {
   if (process.env.DB_TYPE === 'mysql') {
-    var mysql = require('mysql')
+    var mysql = require('mysql2')
+    var AWS = require('aws-sdk')
+    var awsRegion = process.env.AWS_REGION
     var hostName = process.env.MYSQL_DB_HOST
     var portNumber = process.env.MYSQL_DB_PORT
     var username = process.env.MYSQL_DB_USER
-    var password = process.env.MYSQL_DB_PASSWORD
   } else {
     var MongoClient = require('mongodb').MongoClient
     var url = process.env.MONGO_DB_URL
@@ -98,25 +99,43 @@ dispatcher.onGet(/^\/ratings\/[0-9]*/, function (req, res) {
     var secondRating = 0
 
     if (process.env.DB_TYPE === 'mysql') {
-      var connection = mysql.createConnection({
-        host: hostName,
-        port: portNumber,
-        user: username,
-        password: password,
-        database: 'test'
-      })
+      var signer = new AWS.RDS.Signer();
 
-      connection.connect(function(err) {
-          if (err) {
+      signer.getAuthToken({ // uses the IAM role access keys to create an authentication token
+        region: awsRegion,
+        hostname: hostName,
+        port: portNumber,
+        username: username
+      }, function(err, token) {
+        if (err) {
+          console.log(`could not get auth token: ${err}`)
+        } else {
+
+          var connection = mysql.createConnection({
+            host: hostName,
+            port: portNumber,
+            user: username,
+            password: token,
+            database: 'test',
+            ssl: 'Amazon RDS',
+            authSwitchHandler: function (data, cb) { // modifies the authentication handler
+              if (data.pluginName === 'mysql_clear_password') { // authentication token is sent in clear text but connection uses SSL encryption
+                cb(null, Buffer.from(token + '\0'))
+              }
+            }
+          })
+
+          connection.connect(function(err) {
+            if (err) {
               res.end(JSON.stringify({error: 'could not connect to ratings database'}))
               console.log(err)
               return
-          }
-          connection.query('SELECT Rating FROM ratings', function (err, results, fields) {
+            }
+            connection.query('SELECT Rating FROM ratings', function (err, results, fields) {
               if (err) {
-                  res.writeHead(500, {'Content-type': 'application/json'})
-                  res.end(JSON.stringify({error: 'could not perform select'}))
-                  console.log(err)
+                res.writeHead(500, {'Content-type': 'application/json'})
+                res.end(JSON.stringify({error: 'could not perform select'}))
+                console.log(err)
               } else {
                   if (results[0]) {
                       firstRating = results[0].Rating
@@ -134,9 +153,11 @@ dispatcher.onGet(/^\/ratings\/[0-9]*/, function (req, res) {
                   res.writeHead(200, {'Content-type': 'application/json'})
                   res.end(JSON.stringify(result))
               }
+            })
+            // close the connection
+            connection.end()
           })
-          // close the connection
-          connection.end()
+        }
       })
     } else {
       MongoClient.connect(url, function (err, db) {
