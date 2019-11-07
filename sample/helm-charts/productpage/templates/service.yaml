@@ -4,6 +4,7 @@ metadata:
   name: {{ include "productpage.fullname" . }}
   labels:
 {{ include "productpage.labels" . | indent 4 }}
+{{ include "productpage.istio.labels" . | indent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -14,3 +15,4 @@ spec:
   selector:
     app.kubernetes.io/name: {{ include "productpage.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+    app: {{ include "productpage.name" . }}

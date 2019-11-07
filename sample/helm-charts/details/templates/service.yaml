@@ -4,6 +4,7 @@ metadata:
   name: {{ include "details.fullname" . }}
   labels:
 {{ include "details.labels" . | indent 4 }}
+{{ include "details.istio.labels" . | indent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -14,3 +15,4 @@ spec:
   selector:
     app.kubernetes.io/name: {{ include "details.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+    app: {{ include "details.name" . }}
