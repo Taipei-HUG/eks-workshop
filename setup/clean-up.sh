@@ -5,7 +5,6 @@ aws ecr delete-repository --repository-name eks-workshop-bookinfo-ratings --forc
 aws ecr delete-repository --repository-name eks-workshop-bookinfo-details --force
 
 kubectl delete svc --all
-
 kubectl delete deploy --all
 
 sleep 15 
@@ -16,12 +15,13 @@ sleep 15
 
 helm delete istio --purge
 
-sleep 15
 del=1
 # Remove EKS cluster
 while [ $del -ne 0 ] ;
-do 
+do
+sleep 5 
 echo 'try to delete eks'
 eksctl delete cluster -f eks.yaml ; 
 del=$?
 done
+echo 'Clean up Done. Please do not forget check at console.'

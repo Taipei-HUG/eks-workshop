@@ -44,6 +44,13 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
+
+{{- define "reviews.istio.labels" -}}
+app: {{ include "reviews.name" . }}
+version: {{ .Values.version }}
+{{- end -}}
+
+
 {{/*
 Create the name of the service account to use
 */}}
