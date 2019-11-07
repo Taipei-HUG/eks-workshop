@@ -4,7 +4,8 @@ metadata:
   name: {{ include "productpage.fullname" . }}
   labels:
 {{ include "productpage.labels" . | indent 4 }}
-{{ include "productpage.istio.labels" . | indent 4 }}
+    app: {{ include "productpage.name" . }}
+    service: {{ include "productpage.name" . }}
 spec:
   type: {{ .Values.service.type }}
   ports:

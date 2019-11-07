@@ -4,7 +4,8 @@ metadata:
   name: {{ include "details.fullname" . }}
   labels:
 {{ include "details.labels" . | indent 4 }}
-{{ include "details.istio.labels" . | indent 4 }}
+    app: {{ include "details.name" . }}
+    service: {{ include "details.name" . }}
 spec:
   type: {{ .Values.service.type }}
   ports:
