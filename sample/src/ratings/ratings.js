@@ -121,7 +121,6 @@ dispatcher.onGet(/^\/ratings\/[0-9]*/, function (req, res) {
             ssl  : {
               ca : fs.readFileSync('/opt/microservices/rds-ca-2015-root.pem')
             },
-            debug: true,
             authSwitchHandler: function (data, cb) { // modifies the authentication handler
               if (data.pluginName === 'mysql_clear_password') { // authentication token is sent in clear text but connection uses SSL encryption
                 cb(null, Buffer.from(token + '\0'))

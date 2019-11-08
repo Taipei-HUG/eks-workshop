@@ -15,10 +15,11 @@ fullnameOverride: "ratings"
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: bookinfo-ratings
+  # name: bookinfo-ratings
+  name: bookinfo-ratings-irsa
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -52,3 +53,22 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+env: []
+  # ratings-v2 will use mongodb as the default db backend.
+  # if you would like to use mysqldb then you can use this file
+  # which sets DB_TYPE = 'mysql' and the rest of the parameters shown
+  # here and also create the # mysqldb service using bookinfo-mysql.yaml
+  # NOTE: This file is mutually exclusive to bookinfo-ratings-v2.yaml
+  #- name: DB_TYPE
+  #  value: "mysql"
+  #- name: MYSQL_DB_HOST
+  #  value: "xxx.xxx.us-west-2.rds.amazonaws.com"
+  #- name: MYSQL_DB_PORT
+  #  value: "3306"
+  #- name: MYSQL_DB_USER
+  #  value: "irsa"
+  #- name: AWS_REGION
+  #  value: "us-west-2"
+  #- name: SERVICE_VERSION
+  #  value: "v2"

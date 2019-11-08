@@ -28,4 +28,11 @@ chmod +x skaffold
 sudo mv skaffold /usr/local/bin
 echo 'skaffold Done.'
 
-sudo yum install jq
+curl -o terraform_0.12.13_linux_amd64.zip https://releases.hashicorp.com/terraform/0.12.13/terraform_0.12.13_linux_amd64.zip
+unzip terraform_0.12.13_linux_amd64.zip
+chmod +x terraform
+sudo mv terraform /usr/local/bin/
+rm terraform_0.12.13_linux_amd64.zip
+echo 'terraform Done.'
+
+sudo apt-get install -y jq mysql-client

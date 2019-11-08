@@ -7,7 +7,7 @@ sed -i "s/@workshop@/${cluster_name}/" eks.yaml
 eksctl create cluster -f eks.yaml
 
 # Setup OIDC ID provider
-eksctl utils associate-iam-oidc-provider --name ${cluster_name} --approve
+eksctl utils associate-iam-oidc-provider --cluster ${cluster_name} --approve
 
 # Test if kubernate cluster works good
 kubectl get all
