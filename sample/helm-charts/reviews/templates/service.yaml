@@ -4,6 +4,8 @@ metadata:
   name: {{ include "reviews.fullname" . }}
   labels:
 {{ include "reviews.labels" . | indent 4 }}
+    app: {{ include "reviews.name" . }}
+    service: {{ include "reviews.name" . }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -14,3 +16,4 @@ spec:
   selector:
     app.kubernetes.io/name: {{ include "reviews.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+    app: {{ include "reviews.name" . }}

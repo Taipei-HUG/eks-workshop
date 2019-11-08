@@ -54,6 +54,8 @@ tolerations: []
 
 affinity: {}
 
+version: v1
+
 env: []
   # ratings-v2 will use mongodb as the default db backend.
   # if you would like to use mysqldb then you can use this file

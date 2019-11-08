@@ -4,17 +4,20 @@ metadata:
   name: {{ include "ratings.fullname" . }}
   labels:
 {{ include "ratings.labels" . | indent 4 }}
+{{ include "ratings.istio.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "ratings.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
+{{ include "ratings.istio.labels" . | indent 6 }}
   template:
     metadata:
       labels:
         app.kubernetes.io/name: {{ include "ratings.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+{{ include "ratings.istio.labels" . | indent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
