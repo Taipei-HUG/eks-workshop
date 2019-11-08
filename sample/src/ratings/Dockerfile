@@ -16,6 +16,8 @@ FROM node:12.9.0-slim
 
 COPY package.json /opt/microservices/
 COPY ratings.js /opt/microservices/
+COPY rds-ca-2015-root.pem /opt/microservices/
+COPY rds-ca-2019-root.pem /opt/microservices/
 WORKDIR /opt/microservices
 RUN npm install
 
