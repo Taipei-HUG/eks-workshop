@@ -47,11 +47,12 @@ if (process.env.SERVICE_VERSION === 'v-unhealthy') {
  */
 if (process.env.SERVICE_VERSION === 'v2') {
   if (process.env.DB_TYPE === 'mysql') {
+    var fs = require('fs');
     var mysql = require('mysql2')
     var AWS = require('aws-sdk')
     var awsRegion = process.env.AWS_REGION
     var hostName = process.env.MYSQL_DB_HOST
-    var portNumber = process.env.MYSQL_DB_PORT
+    var portNumber = parseInt(process.env.MYSQL_DB_PORT)
     var username = process.env.MYSQL_DB_USER
   } else {
     var MongoClient = require('mongodb').MongoClient
@@ -117,7 +118,10 @@ dispatcher.onGet(/^\/ratings\/[0-9]*/, function (req, res) {
             user: username,
             password: token,
             database: 'test',
-            ssl: 'Amazon RDS',
+            ssl  : {
+              ca : fs.readFileSync('/opt/microservices/rds-ca-2015-root.pem')
+            },
+            debug: true,
             authSwitchHandler: function (data, cb) { // modifies the authentication handler
               if (data.pluginName === 'mysql_clear_password') { // authentication token is sent in clear text but connection uses SSL encryption
                 cb(null, Buffer.from(token + '\0'))
