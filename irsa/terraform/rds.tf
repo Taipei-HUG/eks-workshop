@@ -2,7 +2,7 @@
 # DB Account/Password
 ######################
 resource "random_string" "db_username" {
-  length = 16
+  length = 8
   special = false
 }
 
