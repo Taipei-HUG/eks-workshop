@@ -39,3 +39,20 @@ deploy:
       upgrade:
         - --reset-values
         - --atomic
+portForward:
+  - resourceType: deployment
+    resourceName: details 
+    port: 9080
+    localPort: 8080
+  - resourceType: deployment
+    resourceName: productpage 
+    port: 9080
+    localPort: 8081
+  - resourceType: deployment
+    resourceName: ratings 
+    port: 9080
+    localPort: 8082
+  - resourceType: deployment
+    resourceName: reviews 
+    port: 9080
+    localPort: 8083
