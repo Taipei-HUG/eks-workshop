@@ -20,8 +20,8 @@ module "db_sg" {
   source  = "terraform-aws-modules/security-group/aws//modules/mysql"
   version = "~> 3.0"
   name    = "testirsa"
-  vpc_id  = data.aws_vpc.eks.id
-  ingress_cidr_blocks = [data.aws_vpc.eks.cidr_block]
+  vpc_id  = data.aws_vpc.default.id
+  ingress_cidr_blocks = ["0.0.0.0/0"]
 }
 
 module "db" {
@@ -32,15 +32,16 @@ module "db" {
 
   # All available versions: http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt
   engine            = "mysql"
-  engine_version    = "5.7.19"
+  engine_version    = "5.7.26"
   instance_class    = "db.t2.large"
   allocated_storage = 5
   storage_encrypted = false
 
-  name     = "test"
-  username = random_string.db_username.result
-  password = random_string.db_password.result
-  port     = "3306"
+  name                = "test"
+  username            = random_string.db_username.result
+  password            = random_string.db_password.result
+  port                = "3306"
+  publicly_accessible = true
 
   iam_database_authentication_enabled = true
 

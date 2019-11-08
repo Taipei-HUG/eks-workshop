@@ -1,3 +1,6 @@
+data "aws_caller_identity" "current" {}
+
+
 resource "aws_iam_policy" "test_irsa_rds" {
   name        = "test-irsa-rds"
   path        = "/"
@@ -11,7 +14,7 @@ resource "aws_iam_policy" "test_irsa_rds" {
       "Action" : [
         "rds-db:*"
       ],
-      "Resource": "arn:aws:rds-db:*:163993956761:dbuser:*/irsa",
+      "Resource": "arn:aws:rds-db:*:${data.aws_caller_identity.current.account_id}:dbuser:*/${var.demo_db_user}",
       "Effect": "Allow"
     }
   ]
